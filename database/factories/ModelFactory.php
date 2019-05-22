@@ -15,6 +15,15 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->email,
-        'password' => md5('12345')
+        'password' => app('hash')->make('12345')
+    ];
+});
+
+$factory->define(App\Project::class, function (Faker\Generator $faker) {
+    $users = App\User::all(['id']);
+    return [
+        'title' => $faker->title,
+        'description' => $faker->unique()->text,
+        'user_id' => $users
     ];
 });

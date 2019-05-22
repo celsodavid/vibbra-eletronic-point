@@ -22,9 +22,14 @@ $router->post('/api/v1/authenticate', [
 $router->group(
     ['middleware' => 'jwt.auth'],
     function () use ($router) {
-        $router->get('users', function () {
+        $router->get('/api/v1/users', function () {
             $users = \App\User::all();
             return response()->json($users);
+        });
+
+        $router->get('/api/v1/projects', function () {
+            $projects = \App\Project::all();
+            return response()->json($projects);
         });
     }
 );
