@@ -12,9 +12,19 @@
 */
 
 $router->get('/', function () use ($router) {
-    return $router->app->version();
+    return response()->json(['API']);
 });
 
-$router->get('/test', function () use ($router) {
-    return response()->json(['name' => 'Abigail', 'state' => 'CA']);
-});
+$router->post('/api/v1/authenticate', [
+    'uses' => 'V1\AuthController@authenticate'
+]);
+
+$router->group(
+    ['middleware' => 'jwt.auth'],
+    function () use ($router) {
+        $router->get('users', function () {
+            $users = \App\User::all();
+            return response()->json($users);
+        });
+    }
+);
