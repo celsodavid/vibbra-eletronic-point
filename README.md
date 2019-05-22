@@ -1,6 +1,6 @@
 # Requirements: #
 PHP 7.2<br>
-Lumen 5.3<br>
+Lumen 5.5<br>
 Servidor Docker com Banco de Dados MySql<br>
 
 # Serviços: #
