@@ -22,5 +22,25 @@ class UserController extends BaseController
         return response()->json(['user' => $user]);
     }
 
+    public function create(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required|unique:users',
+            'password' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => $validator->errors()->first()]);
+        }
+
+        $user = new User();
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->password = app('hash')->make($request->input('password'));
+        $user->save();
+
+        return response()->json(['user' => $user]);
+    }
     
 }
