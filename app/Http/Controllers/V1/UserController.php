@@ -26,7 +26,8 @@ class UserController extends BaseController
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'email' => 'required|unique:users',
+            'email' => 'required|email',
+            'login' => 'required|unique:users',
             'password' => 'required'
         ]);
 
@@ -37,6 +38,7 @@ class UserController extends BaseController
         $user = new User();
         $user->name = $request->input('name');
         $user->email = $request->input('email');
+        $user->login = $request->input('login');
         $user->password = app('hash')->make($request->input('password'));
         $user->save();
 
@@ -47,7 +49,8 @@ class UserController extends BaseController
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'email' => 'required|email|unique:users',
+            'email' => 'required|email',
+            'login' => 'required|unique:users',
             'password' => 'required'
         ]);
 
@@ -58,6 +61,7 @@ class UserController extends BaseController
         $user = User::find($id);
         $user->name = $request->input('name');
         $user->email = $request->input('email');
+        $user->login = $request->input('login');
         $user->password = app('hash')->make($request->input('password'));
         $user->save();
 

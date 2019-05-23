@@ -15,6 +15,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->email,
+        'login' => str_replace('.', '', str_replace(' ', '', $faker->unique()->name)),
         'password' => app('hash')->make('12345')
     ];
 });
