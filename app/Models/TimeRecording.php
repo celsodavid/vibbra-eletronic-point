@@ -19,7 +19,6 @@ class TimeRecording extends Model implements AuthenticatableContract, Authorizab
      * @var array
      */
     protected $hidden = [
-        'id',
         'created_at',
         'updated_at'
     ];

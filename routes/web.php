@@ -57,5 +57,6 @@ $router->group(
         $router->get('/', 'TimeRecordingController@show');
         $router->get('{project_id}', 'TimeRecordingController@get');
         $router->post('/', 'TimeRecordingController@create');
+        $router->put('{time_id}', 'TimeRecordingController@update');
     }
 );

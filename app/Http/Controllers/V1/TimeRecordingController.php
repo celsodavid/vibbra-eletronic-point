@@ -42,4 +42,25 @@ class TimeRecordingController extends BaseController
 
         return response()->json(['time' => $timeRecording]);
     }
+
+    public function update(Request $request, $time_id)
+    {
+        $validator = Validator::make($request->all(), [
+            'projects_id' => 'required',
+            'started_at' => 'required',
+            'ended_at' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => $validator->errors()->first()]);
+        }
+
+        $timeRecording = TimeRecording::find($time_id);
+        $timeRecording->projects_id = $request->input('projects_id');
+        $timeRecording->started_at  = $request->input('started_at');
+        $timeRecording->ended_at  = $request->input('ended_at');
+        $timeRecording->save();
+
+        return response()->json(['time' => $timeRecording]);
+    }
 }
