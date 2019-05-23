@@ -16,9 +16,9 @@ class ProjectController extends BaseController
         return response()->json(['projects' => $projects]);
     }
 
-    public function get($id)
+    public function get($project_id)
     {
-        $project = Project::find($id);
+        $project = Project::find($project_id);
         return response()->json(['project' => $project]);
     }
 
@@ -42,7 +42,7 @@ class ProjectController extends BaseController
         return response()->json(['project' => $project]);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $project_id)
     {
         $validator = Validator::make($request->all(), [
             'title' => 'required',
@@ -53,7 +53,7 @@ class ProjectController extends BaseController
             return response()->json(['message' => $validator->errors()->first()]);
         }
 
-        $project = Project::find($id);
+        $project = Project::find($project_id);
         $project->title = $request->input('title');
         $project->description = $request->input('description');
         $project->user_id = $request->input('user_id', []);

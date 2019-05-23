@@ -18,7 +18,7 @@ class TimeRecordingController extends BaseController
 
     public function get($project_id)
     {
-        $time = TimeRecording::where('projects_id', $project_id)->first();
+        $time = TimeRecording::where('projects_id', $project_id)->get();
         return response()->json(['time' => $time]);
     }
 
