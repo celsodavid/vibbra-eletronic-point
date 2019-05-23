@@ -3,10 +3,11 @@
 
 namespace App\Http\Controllers\V1;
 
-use App\User;
+use App\Models\User;
+use App\Services\V1\ValidatorService;
+use Exception;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller as BaseController;
-use Validator;
 
 class UserController extends BaseController
 {
@@ -24,47 +25,37 @@ class UserController extends BaseController
 
     public function create(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'email' => 'required|email',
-            'login' => 'required|unique:users',
-            'password' => 'required'
-        ]);
+        try {
+            ValidatorService::makeUsers($request);
 
-        if ($validator->fails()) {
-            return response()->json(['message' => $validator->errors()->first()]);
+            $user = new User();
+            $user->name = $request->input('name');
+            $user->email = $request->input('email');
+            $user->login = $request->input('login');
+            $user->password = app('hash')->make($request->input('password'));
+            $user->save();
+
+            return response()->json(['user' => $user], 201);
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage()], $exception->getCode());
         }
-
-        $user = new User();
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->login = $request->input('login');
-        $user->password = app('hash')->make($request->input('password'));
-        $user->save();
-
-        return response()->json(['user' => $user]);
     }
 
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'email' => 'required|email',
-            'login' => 'required|unique:users',
-            'password' => 'required'
-        ]);
+        try {
+            ValidatorService::makeUsers($request);
 
-        if ($validator->fails()) {
-            return response()->json(['message' => $validator->errors()->first()]);
+            $user = User::find($id);
+            $user->name = $request->input('name');
+            $user->email = $request->input('email');
+            $user->login = $request->input('login');
+            $user->password = app('hash')->make($request->input('password'));
+            $user->save();
+
+            return response()->json(['user' => $user], 204);
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage()], $exception->getCode());
         }
-
-        $user = User::find($id);
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->login = $request->input('login');
-        $user->password = app('hash')->make($request->input('password'));
-        $user->save();
-
-        return response()->json(['user' => $user]);
     }
 }
