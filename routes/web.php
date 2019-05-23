@@ -55,5 +55,6 @@ $router->group(
     ],
     function () use ($router) {
         $router->get('/', 'TimeRecordingController@show');
+        $router->get('{project_id}', 'TimeRecordingController@get');
     }
 );
