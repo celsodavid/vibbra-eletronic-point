@@ -20,16 +20,26 @@ $router->post('/api/v1/authenticate', [
 ]);
 
 $router->group(
-    ['middleware' => 'jwt.auth'],
+    [
+        'prefix' => '/api/v1/user',
+        'namespace' => 'V1',
+        'middleware' => 'jwt.auth'
+    ],
     function () use ($router) {
-        $router->get('/api/v1/users', function () {
-            $users = \App\User::all();
-            return response()->json($users);
-        });
+        $router->get('/', 'UserController@show');
+    }
+);
 
-        $router->get('/api/v1/projects', function () {
-            $projects = \App\Project::all();
-            return response()->json($projects);
-        });
+$router->group(
+    [
+        'prefix' => '/api/v1/project',
+        'namespace' => 'V1',
+        'middleware' => 'jwt.auth'
+    ],
+    function () use ($router) {
+        $router->get('/', 'ProjectController@index');
+        $router->get('{id}', 'ProjectController@get');
+        $router->post('/', 'ProjectController@create');
+        $router->put('{id}', 'ProjectController@update');
     }
 );
