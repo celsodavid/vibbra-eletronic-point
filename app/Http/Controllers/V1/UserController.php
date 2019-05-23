@@ -16,5 +16,11 @@ class UserController extends BaseController
         return response()->json($users);
     }
 
+    public function get($id)
+    {
+        $user = User::find($id);
+        return response()->json(['user' => $user]);
+    }
 
+    
 }

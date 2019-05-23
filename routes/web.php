@@ -27,6 +27,9 @@ $router->group(
     ],
     function () use ($router) {
         $router->get('/', 'UserController@show');
+        $router->get('{id}', 'UserController@get');
+        $router->post('/', 'UserController@create');
+        $router->put('{id}', 'UserController@update');
     }
 );
 
