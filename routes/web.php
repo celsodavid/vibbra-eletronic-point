@@ -40,9 +40,23 @@ $router->group(
         'middleware' => 'jwt.auth'
     ],
     function () use ($router) {
-        $router->get('/', 'ProjectController@index');
+        $router->get('/', 'ProjectController@show');
         $router->get('{id}', 'ProjectController@get');
         $router->post('/', 'ProjectController@create');
         $router->put('{id}', 'ProjectController@update');
+    }
+);
+
+$router->group(
+    [
+        'prefix' => '/api/v1/time',
+        'namespace' => 'V1',
+        'middleware' => 'jwt.auth'
+    ],
+    function () use ($router) {
+        $router->get('/', 'TimeRecordingController@show');
+        $router->get('{project_id}', 'TimeRecordingController@get');
+        $router->post('/', 'TimeRecordingController@create');
+        $router->put('{time_id}', 'TimeRecordingController@update');
     }
 );

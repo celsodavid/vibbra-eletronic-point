@@ -10,7 +10,7 @@ use Validator;
 
 class ProjectController extends BaseController
 {
-    public function index()
+    public function show()
     {
         $projects = Project::all();
         return response()->json(['projects' => $projects]);
