@@ -28,3 +28,11 @@ $factory->define(App\Project::class, function (Faker\Generator $faker) {
         'user_id' => $users
     ];
 });
+
+$factory->define(App\Models\TimeRecording::class, function (Faker\Generator $faker) {
+    return [
+        'projects_id' => $faker->unique()->randomDigit,
+        'started_at' => $faker->unique()->dateTime(),
+        'ended_at' => $faker->unique()->dateTime()
+    ];
+});
