@@ -51,7 +51,7 @@ class TimeRecordingController extends BaseController
             $timeRecording->ended_at  = $request->input('ended_at');
             $timeRecording->save();
 
-            return response()->json(['time' => $timeRecording], 204);
+            return response()->json(['time' => $timeRecording], 202);
         } catch (Exception $exception) {
             return response()->json(['message' => $exception->getMessage()], $exception->getCode());
         }

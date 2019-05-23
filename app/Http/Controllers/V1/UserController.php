@@ -53,7 +53,7 @@ class UserController extends BaseController
             $user->password = app('hash')->make($request->input('password'));
             $user->save();
 
-            return response()->json(['user' => $user], 204);
+            return response()->json(['user' => $user], 202);
         } catch (Exception $exception) {
             return response()->json(['message' => $exception->getMessage()], $exception->getCode());
         }

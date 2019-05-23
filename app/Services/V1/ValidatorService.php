@@ -23,7 +23,19 @@ class ValidatorService
         }
     }
 
-    public static function makeProjects(Request $request)
+    public static function makeAddProjects(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'title' => 'required',
+            'description' => 'required|unique:projects'
+        ]);
+
+        if ($validator->fails()) {
+            throw new Exception($validator->errors()->first(), 406);
+        }
+    }
+
+    public static function makeEditProjects(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'title' => 'required',
