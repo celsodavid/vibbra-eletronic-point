@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateProduct extends Migration
+class CreateProjectsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -16,7 +16,6 @@ class CreateProduct extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->increments('id');
             $table->json('user_id');
-            //$table->foreign('user_id')->references('id')->on('users');
             $table->string('title');
             $table->string('description')->unique();
             $table->timestamps();
