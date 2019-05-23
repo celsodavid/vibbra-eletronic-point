@@ -26,8 +26,7 @@ class ProjectController extends BaseController
     {
         $validator = Validator::make($request->all(), [
             'title' => 'required',
-            'description' => 'required',
-            'user_id' => 'required'
+            'description' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -37,7 +36,7 @@ class ProjectController extends BaseController
         $project = new Project();
         $project->title = $request->input('title');
         $project->description = $request->input('description');
-        $project->user_id = $request->input('user_id');
+        $project->user_id = $request->input('user_id', []);
         $project->save();
 
         return response()->json(['project' => $project]);
@@ -47,8 +46,7 @@ class ProjectController extends BaseController
     {
         $validator = Validator::make($request->all(), [
             'title' => 'required',
-            'description' => 'required',
-            'user_id' => 'required'
+            'description' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -58,7 +56,7 @@ class ProjectController extends BaseController
         $project = Project::find($id);
         $project->title = $request->input('title');
         $project->description = $request->input('description');
-        $project->user_id = $request->input('user_id');
+        $project->user_id = $request->input('user_id', []);
         $project->save();
 
         return response()->json(['project' => $project]);
