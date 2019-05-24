@@ -4,9 +4,10 @@
 namespace App\Http\Controllers\V1;
 
 use App\Models\TimeRecording;
+use App\Services\V1\ValidatorService;
+use Exception;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller as BaseController;
-use Validator;
 
 class TimeRecordingController extends BaseController
 {
@@ -18,49 +19,41 @@ class TimeRecordingController extends BaseController
 
     public function get($project_id)
     {
-        $time = TimeRecording::where('projects_id', $project_id)->first();
+        $time = TimeRecording::where('projects_id', $project_id)->get();
         return response()->json(['time' => $time]);
     }
 
     public function create(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'projects_id' => 'required',
-            'started_at' => 'required|unique:time_recordings',
-            'ended_at' => 'required|unique:time_recordings'
-        ]);
+        try {
+            ValidatorService::makeAddTime($request);
 
-        if ($validator->fails()) {
-            return response()->json(['message' => $validator->errors()->first()]);
+            $timeRecording = new TimeRecording();
+            $timeRecording->projects_id = $request->input('projects_id');
+            $timeRecording->started_at  = $request->input('started_at');
+            $timeRecording->ended_at  = $request->input('ended_at');
+            $timeRecording->save();
+
+            return response()->json(['time' => $timeRecording], 201);
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage()], $exception->getCode());
         }
-
-        $timeRecording = new TimeRecording();
-        $timeRecording->projects_id = $request->input('projects_id');
-        $timeRecording->started_at  = $request->input('started_at');
-        $timeRecording->ended_at  = $request->input('ended_at');
-        $timeRecording->save();
-
-        return response()->json(['time' => $timeRecording]);
     }
 
     public function update(Request $request, $time_id)
     {
-        $validator = Validator::make($request->all(), [
-            'projects_id' => 'required',
-            'started_at' => 'required',
-            'ended_at' => 'required'
-        ]);
+        try {
+            ValidatorService::makeEditTime($request);
 
-        if ($validator->fails()) {
-            return response()->json(['message' => $validator->errors()->first()]);
+            $timeRecording = TimeRecording::find($time_id);
+            $timeRecording->projects_id = $request->input('projects_id');
+            $timeRecording->started_at  = $request->input('started_at');
+            $timeRecording->ended_at  = $request->input('ended_at');
+            $timeRecording->save();
+
+            return response()->json(['time' => $timeRecording], 202);
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage()], $exception->getCode());
         }
-
-        $timeRecording = TimeRecording::find($time_id);
-        $timeRecording->projects_id = $request->input('projects_id');
-        $timeRecording->started_at  = $request->input('started_at');
-        $timeRecording->ended_at  = $request->input('ended_at');
-        $timeRecording->save();
-
-        return response()->json(['time' => $timeRecording]);
     }
 }

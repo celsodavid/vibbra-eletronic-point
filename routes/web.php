@@ -41,9 +41,9 @@ $router->group(
     ],
     function () use ($router) {
         $router->get('/', 'ProjectController@show');
-        $router->get('{id}', 'ProjectController@get');
+        $router->get('{project_id}', 'ProjectController@get');
         $router->post('/', 'ProjectController@create');
-        $router->put('{id}', 'ProjectController@update');
+        $router->put('{project_id}', 'ProjectController@update');
     }
 );
 
