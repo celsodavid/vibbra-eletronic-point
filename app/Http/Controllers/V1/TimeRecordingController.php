@@ -14,12 +14,20 @@ class TimeRecordingController extends BaseController
     public function show()
     {
         $times = TimeRecording::all();
+        if (is_null($times)) {
+            return response()->json(['message' => 'No registered time recordings for projects'], 404);
+        }
+
         return response()->json(['times' => $times]);
     }
 
     public function get($project_id)
     {
         $time = TimeRecording::where('projects_id', $project_id)->get();
+        if (is_null($time)) {
+            return response()->json(['message' => 'Time not found for project'], 404);
+        }
+
         return response()->json(['time' => $time]);
     }
 

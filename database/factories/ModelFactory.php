@@ -11,27 +11,26 @@
 |
 */
 
-$factory->define(App\User::class, function (Faker\Generator $faker) {
+$factory->define(App\Models\User::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->name,
-        'email' => $faker->unique()->email,
-        'login' => str_replace('.', '', str_replace(' ', '', $faker->unique()->name)),
+        'name' => 'Administrator',
+        'email' => 'admin@eletronic.com',
+        'login' => 'admin',
         'password' => app('hash')->make('12345')
     ];
 });
 
-$factory->define(App\Project::class, function (Faker\Generator $faker) {
-    $users = App\User::all(['id']);
+$factory->define(App\Models\Project::class, function (Faker\Generator $faker) {
     return [
         'title' => $faker->title,
         'description' => $faker->unique()->text,
-        'user_id' => $users
+        'user_id' => [1]
     ];
 });
 
 $factory->define(App\Models\TimeRecording::class, function (Faker\Generator $faker) {
     return [
-        'projects_id' => $faker->unique()->randomDigit,
+        'projects_id' => 1,
         'started_at' => $faker->unique()->dateTime(),
         'ended_at' => $faker->unique()->dateTime()
     ];

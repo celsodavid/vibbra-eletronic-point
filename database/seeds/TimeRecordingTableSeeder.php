@@ -12,6 +12,6 @@ class TimeRecordingTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Models\TimeRecording::class, 5)->create();
+        factory(App\Models\TimeRecording::class, 1)->create();
     }
 }

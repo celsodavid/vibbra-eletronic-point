@@ -15,12 +15,20 @@ class ProjectController extends BaseController
     public function show()
     {
         $projects = Project::all();
+        if (is_null($users)) {
+            return response()->json(['message' => 'No registered projects'], 404);
+        }
+
         return response()->json(['projects' => $projects]);
     }
 
     public function get($project_id)
     {
         $project = Project::find($project_id);
+        if (is_null($project)) {
+            return response()->json(['message' => 'Project not found'], 404);
+        }
+
         return response()->json(['project' => $project]);
     }
 

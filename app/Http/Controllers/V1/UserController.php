@@ -14,12 +14,20 @@ class UserController extends BaseController
     public function show()
     {
         $users = User::all();
+        if (is_null($users)) {
+            return response()->json(['message' => 'No registered users'], 404);
+        }
+
         return response()->json(['users' => $users]);
     }
 
     public function get($id)
     {
         $user = User::find($id);
+        if (is_null($user)) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
         return response()->json(['user' => $user]);
     }
 

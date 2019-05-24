@@ -30,6 +30,6 @@ class CreateTimeRecordingsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('time_recording');
+        Schema::drop('time_recordings');
     }
 }
