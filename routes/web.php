@@ -15,6 +15,14 @@ $router->get('/', function () use ($router) {
     return response()->json(['API']);
 });
 
+$router->get('/test', function () use ($router) {
+    return response()->json([
+        "id" => "1",
+        "isbn" => "438227",
+        "title" => "Book One"
+    ]);
+});
+
 $router->post('/api/v1/authenticate', [
     'uses' => 'V1\AuthController@authenticate'
 ]);

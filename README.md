@@ -59,4 +59,5 @@ Estimativa em horas das atividades:
 
 * **Estimativa de entrega** : 10 dias (5 horas trabalhadas) em dias úteis.
 
+P.S. git remote vibra (http://git.vibbra.com.br/candidatos/CelsoDavid.git)
 
